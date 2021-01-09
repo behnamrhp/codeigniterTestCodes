@@ -47,7 +47,7 @@ if($session->has('username')){ ?>
         <td>' .$user["firstname"]. '</td>
         <td>'.$user["lastname"].'</td>
         <td>'.$user["email"].'</td>
-        <td>'.'<a href="edit/'.$user['id'].'">edit</a>'.'</td>
+        <td>'.'<a href="/registerController/edit/'.$user['id'].'">edit</a>'.'</td>
         <td>'.'<a href="destroy/'.$user['id'].'" onclick="return confirm(\'are you sure to delete?\')">delete</a>'.'</td>
     </tr>';
     } ?>
