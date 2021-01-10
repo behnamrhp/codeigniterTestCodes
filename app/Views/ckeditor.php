@@ -4,7 +4,17 @@
 </head>
 <body>
 
+<?php
+$session=session();?>
+<h4 style="color:red;">
 
+    <?=
+
+    $session->getFlashdata('msg');
+
+    ?>
+</h4>
+<div>
 <form action="<?= base_url('/ArticleController/store') ?>" method="post">
     <textarea id="editor" name="descreption"></textarea>
     <input type="submit" >

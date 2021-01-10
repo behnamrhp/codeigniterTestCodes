@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 class ArticleModel extends Model{
 
     protected $table='editor';
-    protected $allowedFields=['descreption'];
+    protected $allowedFields=['descreption','file'];
     protected $primaryKey='id';
     protected $returnType='array';
     protected $useTimestamps=true;
@@ -14,6 +14,15 @@ class ArticleModel extends Model{
     protected $updatedField='updated_at';
 
 
+public function myPost(){
 
+    $adata=$this
+        ->select('*')
+        ->join('users', 'users.id = editor.user_id')
+        ->first();
+
+    return $adata;
+
+}
 
 }

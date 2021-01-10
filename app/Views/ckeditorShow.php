@@ -1,5 +1,5 @@
 <?php
-$session=session();
+$session = session();
 ?>
 
 <h4 style="color:red;">
@@ -12,20 +12,27 @@ $session=session();
 </h4>
 <div>
 
-        <?php
-//        print_r($article);
-//        die();
-        foreach ($article as $art){ ?>
+    <?php
 
-        <div style="display: block; height: 40vh; width: 50vh; overflow: auto">
-<?=
-         $art['descreption'].'<br>';
-?>
-    </div>
+    foreach ($article as $art) {
 
-<?php
-}
-        ?>
+            ?>
+
+            <div style="display: block; height: 40vh; width: 50vh; overflow: auto; float: right; margin: 10px">
+                <?=
+                $art['descreption'] . '<br>';
+
+
+                   echo   $username;
+
+
+                ?>
+            </div>
+
+            <?php
+
+    }
+    ?>
 
 
 </div>

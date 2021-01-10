@@ -128,4 +128,9 @@ class registerController extends BaseController
         return redirect()->to('/registerController/index');
 
     }
+
+
+    public function ainsert(){
+
+    }
 }
