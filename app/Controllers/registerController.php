@@ -12,13 +12,22 @@ class registerController extends BaseController
         $model1= new UserModel();
 
         $data = [
-            'users'=> $model1->orderBy('id','DESC')->paginate(2),
+            'users'=> $model1->orderBy('id','DESC')->paginate(3),
             'pager'=>$model1->pager,
-            'title' => 'first page built',
         ];
 
         echo view('templates/header', $data);
         echo view('templates/footer');
+
+    }
+    public function loaddata(){
+        $model1111111 = new UserModel();
+        $data = [
+            'users'=> $model1111111->orderBy('id','DESC')->paginate(3),
+            'pager'=>$model1111111->pager,
+        ];
+            echo json_encode($data);
+
 
     }
 
@@ -30,6 +39,8 @@ class registerController extends BaseController
     public function store()
     {
 
+
+        $validation = \Config\Services::validation();
         helper(['form','url']);
         $session=session();
         $error=$this->validate([
@@ -49,6 +60,7 @@ class registerController extends BaseController
         ]);
 
         if($error){
+
             $data = [
                 'firstname' => $this->request->getPost('firstname'),
                 'lastname' => $this->request->getPost('lastname'),
@@ -56,16 +68,40 @@ class registerController extends BaseController
                 'phone' => $this->request->getPost('phone'),
                 'email' => $this->request->getPost('email'),
                 'password' => password_hash($this->request->getPost('password'),PASSWORD_DEFAULT) ,
-                'password_confirm' => password_hash($this->request->getPost('password_confirm'),PASSWORD_DEFAULT),
+                'password_confirm' => password_hash($this->request->getPost('password_confirm'),PASSWORD_DEFAULT) ,
             ];
             $model1111111 = new UserModel();
-            $model1111111->insert($data);
-            $session->setFlashdata('msg','user created successfully');
-            return redirect()->to('index');
+
+            $success=$model1111111->insert($data);
+
+            $data1 = [
+                'users'=> $model1111111->orderBy('id','DESC')->paginate(3),
+
+                'pager'=>$model1111111->pager,
+            ];
+
+
+            if($success==true){
+
+                echo json_encode($data1);
+            }else{
+                $failed='failed';
+                echo json_encode($failed);
+            }
         }else{
+            $msg=[
+                'msgs'=>[
+                    'firstname'=>$validation->getError('firstname'),
+                    'lastname'=>$validation->getError('lastname'),
+                    'usernameE'=>$validation->getError('username'),
+                    'emailE'=>$validation->getError('email'),
+                    'passwordE'=>$validation->getError('password'),
+                    'password_confirmE'=>$validation->getError('password_confirm'),
+                    'phoneE'=>$validation->getError('phone'),
+                ],
+            ];
 
-            echo view('register.php');
-
+            echo json_encode($msg);
         }
     }
     public function edit($id=null){
@@ -73,6 +109,8 @@ class registerController extends BaseController
 
         $data['users']=$model1->where('id',$id)->first();
         return view('edit.php',$data);
+
+
     }
     public function update(){
         helper(['form','url']);
@@ -132,5 +170,12 @@ class registerController extends BaseController
 
     public function ainsert(){
 
+
+        if ($this->request->isAJAX()){
+
+            echo 'ajax got';
+        }else{
+            echo 'ajax did not completed';
+        }
     }
 }
