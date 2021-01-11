@@ -39,7 +39,6 @@ class registerController extends BaseController
     public function store()
     {
 
-
         $validation = \Config\Services::validation();
         helper(['form','url']);
         $session=session();
@@ -155,6 +154,7 @@ class registerController extends BaseController
         }else{
             echo view('edit.php');
 
+
         }
 
 
@@ -164,18 +164,88 @@ class registerController extends BaseController
       $model1->delete($id);
 
         return redirect()->to('/registerController/index');
-
+    }
+    public function ajaxdestroy(){
+        $model1=new UserModel();
+        $id=$this->request->getPost();
+        $model1->delete($id);
+        $model1111111 = new UserModel();
+        $data1 = [
+            'users'=> $model1111111->orderBy('id','DESC')->paginate(3),
+            'pager'=>$model1111111->pager,
+        ];
+        echo json_encode($data1);
     }
 
+    public function ajaxupdateshow()
+    {
+        $model = new UserModel();
+        $id = $this->request->getPost('id');
+        $data['user'] = $model->where('id', $id)->first();
+        echo json_encode($data);
+    }
 
-    public function ainsert(){
+    public function ajaxupdate(){
+        helper(['form','url']);
+        $error=$this->validate([
+            'firstname'=>'required|min_length[4]|max_length[10]',
+            'lastname'=>'required|min_length[4]|max_length[20]',
+            'username'=>'required|min_length[4]|max_length[20]',
+            'email'=>'required|valid_email',
+            'password_confirm'=>'matches[password]',
+            'phone'=>'required|min_length[10]|max_length[12]|numeric',
+        ]);
 
+        $validation = \Config\Services::validation();
+        helper(['form', 'url']);
 
-        if ($this->request->isAJAX()){
+        if($error) {
 
-            echo 'ajax got';
-        }else{
-            echo 'ajax did not completed';
+            $model1 = new UserModel();
+            $id=$this->request->getPost('id');
+            $data=[
+                'firstname'=>$this->request->getPost('firstname'),
+                'lastname'=>$this->request->getPost('lastname'),
+                'email'=>$this->request->getPost('email'),
+                'username'=>$this->request->getPost('username'),
+                'password'=>password_hash($this->request->getPost('password'),PASSWORD_DEFAULT),
+                'password_confirm'=>password_hash($this->request->getPost('password_confirm'),PASSWORD_DEFAULT),
+                'phone'=>$this->request->getPost('phone'),
+            ];
+            $data1=[
+                'name'=>$this->request->getPost('name'),
+                'firstname'=>$this->request->getPost('firstname'),
+                'email'=>$this->request->getPost('email'),
+                'username'=>$this->request->getPost('username'),
+                'phone'=>$this->request->getPost('phone'),
+            ];
+            if(empty($data['password'])){
+                $model1->update($id,$data1);
+            }else{
+                $model1->update($id,$data);
+            }
+            $data1 = [
+                'users'=> $model1->orderBy('id','DESC')->paginate(3),
+                'pager'=>$model1->pager,
+            ];
+                echo json_encode($data1);
+        } else {
+
+            $msg = [
+                'msgs' => [
+                    'firstname' => $validation->getError('firstname'),
+                    'lastname' => $validation->getError('lastname'),
+                    'usernameE' => $validation->getError('username'),
+                    'emailE' => $validation->getError('email'),
+                    'passwordE' => $validation->getError('password'),
+                    'password_confirmE' => $validation->getError('password_confirm'),
+                    'phoneE' => $validation->getError('phone'),
+                ],
+            ];
+
+            echo json_encode($msg);
         }
     }
+
+
 }
