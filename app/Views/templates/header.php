@@ -168,27 +168,28 @@ if ($session->has('msg')){ ?>
         <a class="btn btn-success" href="<?php echo base_url('dashboardController/index') ; ?>">dashboard</a>
 
     <?php } ?>
+
+    <div class="row mt-3 mb-3">
+        <div class="col">
+            <input class="form-control" id="search_inp" />
+        </div>
+    </div>
+
     <table class="table">
 
      <tbody>
 
      </tbody>
     </table>
-    <?php
-    if($pager){
-    ?>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-
-            <?= $pager->links(); ?>
-        </ul>
-    </nav>
 
 
-    <?php
+    <div class="paginate">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination" id="paginate_container">
+            </ul>
+        </nav>
+    </div>
 
-    }
-    ?>
 
 
 
