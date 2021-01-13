@@ -21,9 +21,9 @@ class registerController extends BaseController
 
     }
 
-    public function loaddata($page = 1, $search = '')
+    public function loaddata($page=0 ,$search='')
     {
-        $count = 1;
+        $count = 2;
 
         $usrM = new UserModel();
 

@@ -130,7 +130,6 @@ use App\Controllers\registerController;
 
                 } else {
                     $('.modal').modal('hide');
-
                     loadData(_c_page);
                 }
             }
