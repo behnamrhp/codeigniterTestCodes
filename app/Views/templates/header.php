@@ -194,5 +194,5 @@ if ($session->has('msg')){ ?>
 
 
 </div>
-
+<?php $this->renderSection('footer')?>
 

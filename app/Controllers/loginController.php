@@ -89,19 +89,15 @@ class loginController extends BaseController
                     $token = rand(1000, 9999);
                     $to = $data['email'];
                     $subject = 'reset password';
-                    $message = 'please click on the link of reset password' . '<br>' . '<a href="http://localhost:8080/loginController/reset/' . $data['id'] . '">reset password</a>';
+                    $message = view('email.php');
 
-                    $email1 = \Config\Services::email();
-
-                    $email1->setTo($to);
-
-                    $email1->setFrom('info@test.com', 'testphp');
-
-                    $email1->setSubject($subject);
-
-                    $email1->setMessage($message);
-
-                    $email2 = $email1->send();
+                    $email1 = \Config\Services::email()
+                        ->setTo($to)
+                        ->setFrom('info@test.com', 'testphp')
+                        ->setSubject($subject)
+                        ->setMessage($message)
+                        ->send();
+                    $email2 = $email1;
 
                     if ($email2) {
                         $session = session();

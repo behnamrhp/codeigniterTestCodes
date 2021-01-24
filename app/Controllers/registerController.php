@@ -16,9 +16,9 @@ class registerController extends BaseController
             'pager' => $model1->pager,
         ];
 
-        echo view('templates/header', $data);
-        echo view('templates/footer');
-
+//        return view('templates/header', $data);
+//        echo view('templates/footer');
+return view('layout.php');
     }
 
     public function loaddata($page=0 ,$search='')
